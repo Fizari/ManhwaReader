@@ -10,12 +10,12 @@ namespace ManhwaReader
 {
     public class FolderData
     {
-        private static string[] _validExtensions = { "bmp", "gif", "jpeg", "jpg", "png", "tiff" };
+        private static string[] _validExtensions = { ".bmp", ".gif", ".jpeg", ".jpg", ".png", ".tiff" };
         private DirectoryInfo _folder;
         private FileInfo[] _files;
         private int _cpt = 0;
 
-        public void Setup (string filePath)
+        public FolderData(string filePath)
         {
             var file = new FileInfo(filePath);
             _folder = file.Directory;
@@ -34,7 +34,8 @@ namespace ManhwaReader
             }
             if (fileList.Count == 0)
                 throw new FolderEmptyException("The folder is empty (and if you coded that right you should not be there)");
-            _files = fileList.ToArray();
+            var sortedList = fileList.CustomSort();
+            _files = sortedList.ToArray();
         }
 
         public string GetNextFilePath()
@@ -44,17 +45,24 @@ namespace ManhwaReader
 
         public string GetPreviousFilePath()
         {
-            return GetNextOrPreviousFilePath(-11);
+            return GetNextOrPreviousFilePath(-1);
         }
 
         public string GetNextOrPreviousFilePath (int i)
         {
             if (_cpt + i > _files.Length - 1)
-                return _files[0].FullName;
+            {
+                _cpt = 0;
+            }
             else if (_cpt + i < 0)
-                return _files[_files.Length - 1].FullName;
+            {
+                _cpt = _files.Length - 1;
+            }
             else
-                return _files[_cpt + i].FullName;
+            {
+                _cpt = _cpt + i;
+            }
+            return _files[_cpt].FullName;
         }
     }
 }

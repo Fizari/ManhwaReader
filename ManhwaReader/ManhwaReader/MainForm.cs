@@ -13,7 +13,8 @@ namespace ManhwaReader
 {
     public partial class ManhwaReader : Form
     {
-        private bool isFullScreen = false;
+        private bool _isFullScreen = false;
+        private FolderData _folderData;
 
         public ManhwaReader()
         {
@@ -21,11 +22,17 @@ namespace ManhwaReader
             InitializeComponent();
         }
 
-        private void LoadFile (string filePath)
+        private void QuickLoadFile (string filePath)
         {
             this.toolStripLabel1.Text = filePath;
             this.mainPictureBox.Image = Image.FromFile(filePath);
             ResizePicture();
+        }
+
+        private void LoadFile (string filePath)
+        {
+            _folderData = new FolderData(filePath);
+            QuickLoadFile(filePath);
         }
 
         private void ShowOpenFileDialog()
@@ -46,7 +53,7 @@ namespace ManhwaReader
 
         private void SwitchFullScreen()
         {
-            if (isFullScreen)
+            if (_isFullScreen)
             {
                 this.TopMost = false;
                 this.FormBorderStyle = FormBorderStyle.Sizable;
@@ -58,8 +65,22 @@ namespace ManhwaReader
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.WindowState = FormWindowState.Maximized;
             }
-            isFullScreen = this.TopMost == true;
+            _isFullScreen = this.TopMost == true;
         }
+
+        private void LoadNextPicture()
+        {
+            var nextFilePath = _folderData.GetNextFilePath();
+            QuickLoadFile(nextFilePath);
+        }
+
+        private void LoadPreviousPicture()
+        {
+            var previousFilePath = _folderData.GetPreviousFilePath();
+            QuickLoadFile(previousFilePath);
+        }
+
+        #region Handlers
 
         private void OnMainPictureBoxResize(object sender, EventArgs e)
         {
@@ -78,10 +99,13 @@ namespace ManhwaReader
         {
             SwitchFullScreen();
         }
-        
+
+        #endregion
+
+        #region key biding
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Keys.Escape && isFullScreen)
+            if (keyData == Keys.Escape && _isFullScreen)
             {
                 SwitchFullScreen();
                 return true;
@@ -96,7 +120,19 @@ namespace ManhwaReader
                 SwitchFullScreen();
                 return true;
             }
+            if (keyData == Keys.Right)
+            {
+                LoadNextPicture();
+                return true;
+            }
+            if (keyData == Keys.Left)
+            {
+                LoadPreviousPicture();
+                return true;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        #endregion
     }
 }

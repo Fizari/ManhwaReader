@@ -21,14 +21,19 @@ namespace ManhwaReader
             InitializeComponent();
         }
 
+        private void LoadFile (string filePath)
+        {
+            this.toolStripLabel1.Text = filePath;
+            this.mainPictureBox.Image = Image.FromFile(filePath);
+            ResizePicture();
+        }
+
         private void ShowOpenFileDialog()
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string file = openFileDialog.FileName;
-                this.toolStripLabel1.Text = file;
-                this.mainPictureBox.Image = Image.FromFile(file);
-                ResizePicture();
+                string filePath = openFileDialog.FileName;
+                LoadFile(filePath);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using ManhwaReader.Forms;
+using ManhwaReader.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,12 +18,15 @@ namespace ManhwaReader
     {
         private bool _isFullScreen = false;
         private FolderData _folderData;
+        private ReaderState _state;
 
         public event EventHandler PictureLoaded;
         
         public MainForm()
         {
             this.KeyPreview = true;
+            _folderData = new FolderData();
+            _state = new ReaderState();
             InitializeComponent();
             var clickOverlayForm = new ClickOverlay(this);
             clickOverlayForm.Show();
@@ -57,7 +62,7 @@ namespace ManhwaReader
 
         private void LoadFile (string filePath)
         {
-            _folderData = new FolderData(filePath);
+            _folderData.Load(filePath);
             QuickLoadFile(filePath);
             OnPictureLoaded(new EventArgs());
         }
@@ -108,6 +113,22 @@ namespace ManhwaReader
             QuickLoadFile(previousFilePath);
         }
 
+        public void ScrollMainPanel(bool up)
+        {
+            var step = 120;
+            step = up ? step * -1 : step;
+            var scrollValue = mainContainerPanel.VerticalScroll.Value;
+            var newValue = 0;
+            if (scrollValue + step < 0)
+                newValue = 0;
+            else if (scrollValue + step > mainContainerPanel.VerticalScroll.Maximum)
+                newValue = VerticalScroll.Maximum;
+            else
+                newValue = scrollValue + step;
+            mainContainerPanel.VerticalScroll.Value = newValue;
+        }
+        
+
         #region Events Handlers
 
         private void OnMainPictureBoxResize(object sender, EventArgs e)
@@ -138,9 +159,22 @@ namespace ManhwaReader
             LoadNextPicture();
         }
 
+        private void OnFrameSizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                //AFTER minimized...
+            }
+            if (WindowState == FormWindowState.Normal || WindowState == FormWindowState.Maximized)
+            {
+                mainContainerPanel.VerticalScroll.Value = _state.VerticalScrollPosition;
+                mainContainerPanel.PerformLayout();
+            }
+        }
+
         #endregion
 
-        #region key biding
+        #region windows behavior biding
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Escape && _isFullScreen)
@@ -168,10 +202,39 @@ namespace ManhwaReader
                 LoadPreviousPicture();
                 return true;
             }
+            if (keyData == Keys.Down)
+            {
+                ScrollMainPanel(false);
+                return true;
+            }
+            if (keyData == Keys.Up)
+            {
+                ScrollMainPanel(true);
+                return true;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        private const int WM_SYSCOMMAND = 0x0112;
+        private const int SC_MINIMIZE = 0xF020;
+
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case WM_SYSCOMMAND:
+                    int command = m.WParam.ToInt32() & 0xfff0;
+                    if (command == SC_MINIMIZE) //Window BEFORE minimized...
+                    {
+                        _state.VerticalScrollPosition = mainContainerPanel.VerticalScroll.Value;
+                        _state.File = _folderData.GetCurrentFile();
+                    }
+                    break;
+            }
+            base.WndProc(ref m);
+        }
+
         #endregion
-        
     }
 }

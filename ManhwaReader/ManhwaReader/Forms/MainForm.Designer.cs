@@ -126,6 +126,7 @@ namespace ManhwaReader
             this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "MainForm";
             this.Text = "ManhwaReader";
+            this.SizeChanged += new System.EventHandler(this.OnFrameSizeChanged);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManhwaReader.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,21 +12,46 @@ using System.Windows.Forms;
 
 namespace ManhwaReader
 {
-    public partial class ManhwaReader : Form
+    public partial class MainForm : CoverableForm
     {
         private bool _isFullScreen = false;
         private FolderData _folderData;
 
-        public ManhwaReader()
+        public event EventHandler PictureLoaded;
+        
+        public MainForm()
         {
             this.KeyPreview = true;
             InitializeComponent();
+            var clickOverlayForm = new ClickOverlay(this);
+            clickOverlayForm.Show();
+        }
+
+        public override Size CoverableArea()
+        {
+            return this.mainContainerPanel.ClientSize;
+        }
+        public override Point CoverableLocation()
+        {
+            return this.mainContainerPanel.Bounds.Location;
+        }
+
+        public override void MouseWheeled(object sender, MouseEventArgs me)
+        {
+            mainContainerPanel.MouseWheeled(me);
+        }
+
+        public virtual void OnPictureLoaded (EventArgs e)
+        {
+            if (PictureLoaded != null)
+                PictureLoaded(this, e);
         }
 
         private void QuickLoadFile (string filePath)
         {
             this.toolStripLabel1.Text = filePath;
             this.mainPictureBox.Image = Image.FromFile(filePath);
+            this.mainContainerPanel.AutoScrollPosition = new Point(0, 0);
             ResizePicture();
         }
 
@@ -33,6 +59,7 @@ namespace ManhwaReader
         {
             _folderData = new FolderData(filePath);
             QuickLoadFile(filePath);
+            OnPictureLoaded(new EventArgs());
         }
 
         private void ShowOpenFileDialog()
@@ -46,6 +73,7 @@ namespace ManhwaReader
 
         private void ResizePicture()
         {
+            var bla = this.mainContainerPanel;
             var img = mainPictureBox.Image;
             var ratio = Convert.ToDouble(img.Height) / img.Width;
             this.mainPictureBox.Height = Convert.ToInt32((this.mainPictureBox.Width * ratio));
@@ -68,19 +96,19 @@ namespace ManhwaReader
             _isFullScreen = this.TopMost == true;
         }
 
-        private void LoadNextPicture()
+        public void LoadNextPicture()
         {
             var nextFilePath = _folderData.GetNextFilePath();
             QuickLoadFile(nextFilePath);
         }
 
-        private void LoadPreviousPicture()
+        public void LoadPreviousPicture()
         {
             var previousFilePath = _folderData.GetPreviousFilePath();
             QuickLoadFile(previousFilePath);
         }
 
-        #region Handlers
+        #region Events Handlers
 
         private void OnMainPictureBoxResize(object sender, EventArgs e)
         {
@@ -98,6 +126,16 @@ namespace ManhwaReader
         private void OnFullScreenBtnClick(object sender, EventArgs e)
         {
             SwitchFullScreen();
+        }
+
+        private void OnLeftClickPanel(object sender, EventArgs e)
+        {
+            LoadPreviousPicture();
+        }
+
+        private void OnRightClickPanel(object sender, EventArgs e)
+        {
+            LoadNextPicture();
         }
 
         #endregion
@@ -134,5 +172,6 @@ namespace ManhwaReader
         }
 
         #endregion
+        
     }
 }

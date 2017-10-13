@@ -46,9 +46,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CuteButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScrollablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CoverableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Exceptions\FolderEmptyException.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FolderData.cs" />
+    <Compile Include="Forms\ClickOverlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ClickOverlay.Designer.cs">
+      <DependentUpon>ClickOverlay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TransparentOverlayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +75,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\ClickOverlay.resx">
+      <DependentUpon>ClickOverlay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

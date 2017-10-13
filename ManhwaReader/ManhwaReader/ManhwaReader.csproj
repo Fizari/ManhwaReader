@@ -52,12 +52,12 @@
     <Compile Include="Controls\ScrollablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CoverableForm.cs">
+    <Compile Include="Forms\CoverableForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Exceptions\FolderEmptyException.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="FolderData.cs" />
+    <Compile Include="Model\FolderData.cs" />
     <Compile Include="Forms\ClickOverlay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,10 +67,10 @@
     <Compile Include="Forms\TransparentOverlayForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -78,7 +78,7 @@
     <EmbeddedResource Include="Forms\ClickOverlay.resx">
       <DependentUpon>ClickOverlay.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -98,7 +98,7 @@ namespace ManhwaReader
             this.mainPictureBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.mainPictureBox.Location = new System.Drawing.Point(0, 0);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(945, 471);
+            this.mainPictureBox.Size = new System.Drawing.Size(982, 446);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;

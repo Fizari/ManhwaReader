@@ -10,9 +10,9 @@ namespace ManhwaReader
 {
     public static class Extensions
     {
-        public static void ForEach (this DirectoryInfo dir, Action <FileInfo> action)
+        public static void ForEach (this IEnumerable<FileInfo> list, Action <FileInfo> action)
         {
-            foreach(FileInfo f in dir.GetFiles())
+            foreach(FileInfo f in list)
             {
                 action(f);
             }

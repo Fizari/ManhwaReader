@@ -17,7 +17,7 @@ namespace ManhwaReader.Forms
         {
             _ownerForm = tocover;
             this.BackColor = Color.White;
-            this.Opacity = 0.50;      // Tweak as desired
+            this.Opacity = 0.01;      // Tweak as desired
             this.FormBorderStyle = FormBorderStyle.None;
             this.ControlBox = false;
             this.ShowInTaskbar = false;

@@ -22,20 +22,19 @@ namespace ManhwaReader
 
             var fileList = new List<FileInfo>();
             var innerCpt = 0;
-            foreach (FileInfo f in _folder.GetFiles())
-            {
-                if (_validExtensions.Contains(f.Extension))
-                {
-                    if (f.FullName == filePath)
-                        _cpt = innerCpt;
-                    fileList.Add(f);
-                    innerCpt++;
-                }
-            }
+             _folder.GetFiles().CustomSort().ForEach(f =>
+              {
+                  if (_validExtensions.Contains(f.Extension))
+                  {
+                      if (f.FullName == filePath)
+                          _cpt = innerCpt;
+                      fileList.Add(f);
+                      innerCpt++;
+                  }
+              });
             if (fileList.Count == 0)
                 throw new FolderEmptyException("The folder is empty (and if you coded that right you should not be there)");
-            var sortedList = fileList.CustomSort();
-            _files = sortedList.ToArray();
+            _files = fileList.ToArray();
         }
 
         public string GetNextFilePath()

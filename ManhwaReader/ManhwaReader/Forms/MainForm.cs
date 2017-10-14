@@ -1,15 +1,8 @@
 ﻿using ManhwaReader.Forms;
 using ManhwaReader.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ManhwaReader
@@ -19,6 +12,8 @@ namespace ManhwaReader
         private bool _isFullScreen = false;
         private FolderData _folderData;
         private ReaderState _state;
+
+        private int _scrollStepValue = 120;
 
         public event EventHandler PictureLoaded;
         
@@ -115,19 +110,20 @@ namespace ManhwaReader
 
         public void ScrollMainPanel(bool up)
         {
-            var step = 120;
+            var step = _scrollStepValue;
             step = up ? step * -1 : step;
             var scrollValue = mainContainerPanel.VerticalScroll.Value;
             var newValue = 0;
             if (scrollValue + step < 0)
                 newValue = 0;
             else if (scrollValue + step > mainContainerPanel.VerticalScroll.Maximum)
-                newValue = VerticalScroll.Maximum;
+                newValue = mainContainerPanel.VerticalScroll.Maximum;
             else
                 newValue = scrollValue + step;
-            mainContainerPanel.VerticalScroll.Value = newValue;
+            mainContainerPanel.AutoScrollPosition =
+            new Point(0, newValue);
         }
-        
+
 
         #region Events Handlers
 
@@ -148,17 +144,6 @@ namespace ManhwaReader
         {
             SwitchFullScreen();
         }
-
-        private void OnLeftClickPanel(object sender, EventArgs e)
-        {
-            LoadPreviousPicture();
-        }
-
-        private void OnRightClickPanel(object sender, EventArgs e)
-        {
-            LoadNextPicture();
-        }
-
         private void OnFrameSizeChanged(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -167,8 +152,10 @@ namespace ManhwaReader
             }
             if (WindowState == FormWindowState.Normal || WindowState == FormWindowState.Maximized)
             {
+                
                 mainContainerPanel.VerticalScroll.Value = _state.VerticalScrollPosition;
                 mainContainerPanel.PerformLayout();
+                
             }
         }
 

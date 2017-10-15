@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ManhwaReader.Exceptions;
+using ManhwaReader.Model;
 
 namespace ManhwaReader
 {
-    public class FolderData
+    public class FolderData : IFolderData
     {
         private static string[] _validExtensions = { ".bmp", ".gif", ".jpeg", ".jpg", ".png", ".tiff" };
         private DirectoryInfo _folder;

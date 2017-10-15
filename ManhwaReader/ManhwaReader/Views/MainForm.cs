@@ -1,5 +1,6 @@
 ﻿using ManhwaReader.Forms;
 using ManhwaReader.Model;
+using ManhwaReader.Presenters;
 using System;
 using System.Drawing;
 using System.Security.Permissions;
@@ -10,21 +11,21 @@ namespace ManhwaReader
     public partial class MainForm : CoverableForm
     {
         private bool _isFullScreen = false;
-        private FolderData _folderData;
-        private ReaderState _state;
+        private ClickOverlayForm _clickOverlayForm;
 
-        private int _scrollStepValue = 120;
+        private static int _scrollStepValue = 120;//TODO user can change this value within options
+
+        private IMainPresenter _presenter;
 
         public event EventHandler PictureLoaded;
         
         public MainForm()
         {
+            _presenter = new MainPresenter(this);
             this.KeyPreview = true;
-            _folderData = new FolderData();
-            _state = new ReaderState();
             InitializeComponent();
-            var clickOverlayForm = new ClickOverlay(this);
-            clickOverlayForm.Show();
+            _clickOverlayForm = new ClickOverlayForm(this,_presenter);
+            _clickOverlayForm.Show();
         }
 
         public override Size CoverableArea()
@@ -47,27 +48,20 @@ namespace ManhwaReader
                 PictureLoaded(this, e);
         }
 
-        private void QuickLoadFile (string filePath)
+        public void LoadFile (string filePath)
         {
             this.toolStripLabel1.Text = filePath;
             this.mainPictureBox.Image = Image.FromFile(filePath);
             this.mainContainerPanel.AutoScrollPosition = new Point(0, 0);
             ResizePicture();
         }
-
-        private void LoadFile (string filePath)
-        {
-            _folderData.Load(filePath);
-            QuickLoadFile(filePath);
-            OnPictureLoaded(new EventArgs());
-        }
-
-        private void ShowOpenFileDialog()
+        
+        public void ShowOpenFileDialog()
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = openFileDialog.FileName;
-                LoadFile(filePath);
+                _presenter.OpenChosenFile(filePath);
             }
         }
 
@@ -94,18 +88,6 @@ namespace ManhwaReader
                 this.WindowState = FormWindowState.Maximized;
             }
             _isFullScreen = this.TopMost == true;
-        }
-
-        public void LoadNextPicture()
-        {
-            var nextFilePath = _folderData.GetNextFilePath();
-            QuickLoadFile(nextFilePath);
-        }
-
-        public void LoadPreviousPicture()
-        {
-            var previousFilePath = _folderData.GetPreviousFilePath();
-            QuickLoadFile(previousFilePath);
         }
 
         public void ScrollMainPanel(bool up)
@@ -137,7 +119,7 @@ namespace ManhwaReader
         
         private void OnOpenFileButtonClick(object sender, EventArgs e)
         {
-            ShowOpenFileDialog();
+            _presenter.ShowFileChooser();
         }
 
         private void OnFullScreenBtnClick(object sender, EventArgs e)
@@ -153,7 +135,7 @@ namespace ManhwaReader
             if (WindowState == FormWindowState.Normal || WindowState == FormWindowState.Maximized)
             {
                 
-                mainContainerPanel.VerticalScroll.Value = _state.VerticalScrollPosition;
+                mainContainerPanel.VerticalScroll.Value = _presenter.GetVerticalScrollPosition();
                 mainContainerPanel.PerformLayout();
                 
             }
@@ -181,12 +163,12 @@ namespace ManhwaReader
             }
             if (keyData == Keys.Right)
             {
-                LoadNextPicture();
+                _presenter.LoadNextPicture();
                 return true;
             }
             if (keyData == Keys.Left)
             {
-                LoadPreviousPicture();
+                _presenter.LoadPreviousPicture();
                 return true;
             }
             if (keyData == Keys.Down)
@@ -214,8 +196,7 @@ namespace ManhwaReader
                     int command = m.WParam.ToInt32() & 0xfff0;
                     if (command == SC_MINIMIZE) //Window BEFORE minimized...
                     {
-                        _state.VerticalScrollPosition = mainContainerPanel.VerticalScroll.Value;
-                        _state.File = _folderData.GetCurrentFile();
+                        _presenter.RegisterState(mainContainerPanel.VerticalScroll.Value);
                     }
                     break;
             }

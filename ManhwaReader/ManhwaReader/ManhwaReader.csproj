@@ -52,34 +52,38 @@
     <Compile Include="Controls\ScrollablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\CoverableForm.cs">
+    <Compile Include="Model\IFolderData.cs" />
+    <Compile Include="Model\IReaderState.cs" />
+    <Compile Include="Presenters\IMainPresenter.cs" />
+    <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Views\CoverableForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Exceptions\FolderEmptyException.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Model\FolderData.cs" />
-    <Compile Include="Forms\ClickOverlay.cs">
+    <Compile Include="Views\ClickOverlayForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ClickOverlay.Designer.cs">
-      <DependentUpon>ClickOverlay.cs</DependentUpon>
+    <Compile Include="Views\ClickOverlayForm.Designer.cs">
+      <DependentUpon>ClickOverlayForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TransparentOverlayForm.cs">
+    <Compile Include="Views\TransparentOverlayForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.cs">
+    <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
+    <Compile Include="Views\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\ReaderState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\ClickOverlay.resx">
-      <DependentUpon>ClickOverlay.cs</DependentUpon>
+    <EmbeddedResource Include="Views\ClickOverlayForm.resx">
+      <DependentUpon>ClickOverlayForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
+    <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

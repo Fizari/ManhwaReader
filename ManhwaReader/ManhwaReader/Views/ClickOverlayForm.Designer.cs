@@ -1,6 +1,6 @@
 ﻿namespace ManhwaReader.Forms
 {
-    partial class ClickOverlay
+    partial class ClickOverlayForm
     {
         /// <summary>
         /// Required designer variable.

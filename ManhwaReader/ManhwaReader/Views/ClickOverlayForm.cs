@@ -1,22 +1,24 @@
-﻿using System;
+﻿using ManhwaReader.Presenters;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace ManhwaReader.Forms
 {
-    public partial class ClickOverlay : TransparentOverlayForm
+    public partial class ClickOverlayForm : TransparentOverlayForm
     {
 
         private MainForm _mainForm;
+        private IMainPresenter _presenter;
 
-        public ClickOverlay (CoverableForm owner) : base(owner)
+        public ClickOverlayForm (CoverableForm owner, IMainPresenter presenter) : base(owner)
         {
             _mainForm = (MainForm)owner;
+            _presenter = presenter;
             InitializeComponent();
             MouseWheel += OnMouseWheel;
             ResizeClickPanels();
             _mainForm.PictureLoaded += OnPictureLoaded;
-            
         }
         
 
@@ -57,12 +59,12 @@ namespace ManhwaReader.Forms
 
         private void OnLeftPanelClick(object sender, EventArgs e)
         {
-            _mainForm.LoadPreviousPicture();
+            _presenter.LoadPreviousPicture();
         }
         
         private void OnRightPanelClick(object sender, EventArgs e)
         {
-            _mainForm.LoadNextPicture();
+            _presenter.LoadNextPicture();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ManhwaReader.Model;
 using System;
+using System.Windows.Forms;
 
 namespace ManhwaReader.Presenters
 {
@@ -8,6 +9,8 @@ namespace ManhwaReader.Presenters
         protected MainForm _form;
         private IFolderData _folderData;
         private IReaderState _state;
+        
+        private bool _isFullScreen = false;
 
         public MainPresenter (MainForm form)
         {
@@ -62,6 +65,59 @@ namespace ManhwaReader.Presenters
         {
             _state.VerticalScrollPosition = scrollPosition;
             _state.File = _folderData.GetCurrentFile();
+        }
+
+        public void SwitchFullScreen ()
+        {
+            if(_isFullScreen)
+            {
+                _form.DisableFullScreen();
+            }
+            else
+            {
+                _form.EnableFullScreen();
+            }
+            _isFullScreen = !_isFullScreen;
+        }
+
+        public bool KeyPressed (ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Escape && _isFullScreen)
+            {
+                SwitchFullScreen();
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.O))
+            {
+                ShowFileChooser();
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.Enter))
+            {
+                SwitchFullScreen();
+                return true;
+            }
+            if (keyData == Keys.Right)
+            {
+                LoadNextPicture();
+                return true;
+            }
+            if (keyData == Keys.Left)
+            {
+                LoadPreviousPicture();
+                return true;
+            }
+            if (keyData == Keys.Down)
+            {
+                _form.ScrollMainPanel(false);
+                return true;
+            }
+            if (keyData == Keys.Up)
+            {
+                _form.ScrollMainPanel(true);
+                return true;
+            }
+            return false;
         }
     }
 }

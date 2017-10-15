@@ -10,7 +10,6 @@ namespace ManhwaReader
 {
     public partial class MainForm : CoverableForm
     {
-        private bool _isFullScreen = false;
         private ClickOverlayForm _clickOverlayForm;
 
         private static int _scrollStepValue = 120;//TODO user can change this value within options
@@ -73,23 +72,20 @@ namespace ManhwaReader
             this.mainPictureBox.Height = Convert.ToInt32((this.mainPictureBox.Width * ratio));
         }
 
-        private void SwitchFullScreen()
+        public void EnableFullScreen()
         {
-            if (_isFullScreen)
-            {
-                this.TopMost = false;
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-                this.WindowState = FormWindowState.Normal;
-            }
-            else
-            {
-                this.TopMost = true;
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.WindowState = FormWindowState.Maximized;
-            }
-            _isFullScreen = this.TopMost == true;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
         }
 
+        public void DisableFullScreen ()
+        {
+            this.TopMost = false;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.WindowState = FormWindowState.Normal;
+        }
+        
         public void ScrollMainPanel(bool up)
         {
             var step = _scrollStepValue;
@@ -124,7 +120,7 @@ namespace ManhwaReader
 
         private void OnFullScreenBtnClick(object sender, EventArgs e)
         {
-            SwitchFullScreen();
+            _presenter.SwitchFullScreen();
         }
         private void OnFrameSizeChanged(object sender, EventArgs e)
         {
@@ -146,42 +142,8 @@ namespace ManhwaReader
         #region windows behavior biding
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Keys.Escape && _isFullScreen)
-            {
-                SwitchFullScreen();
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.O))
-            {
-                ShowOpenFileDialog();
-                return true;
-            }
-            if (keyData == (Keys.Control | Keys.Enter))
-            {
-                SwitchFullScreen();
-                return true;
-            }
-            if (keyData == Keys.Right)
-            {
-                _presenter.LoadNextPicture();
-                return true;
-            }
-            if (keyData == Keys.Left)
-            {
-                _presenter.LoadPreviousPicture();
-                return true;
-            }
-            if (keyData == Keys.Down)
-            {
-                ScrollMainPanel(false);
-                return true;
-            }
-            if (keyData == Keys.Up)
-            {
-                ScrollMainPanel(true);
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
+            var res = _presenter.KeyPressed(ref msg, keyData);
+            return res ? res : base.ProcessCmdKey(ref msg, keyData);
         }
 
         private const int WM_SYSCOMMAND = 0x0112;

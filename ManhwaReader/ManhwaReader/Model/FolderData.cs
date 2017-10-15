@@ -11,7 +11,7 @@ namespace ManhwaReader
 {
     public class FolderData : IFolderData
     {
-        private static string[] _validExtensions = { ".bmp", ".gif", ".jpeg", ".jpg", ".png", ".tiff" };
+        public static string[] VALID_EXTENSIONS = { ".bmp", ".gif", ".jpeg", ".jpg", ".png", ".tiff" };
         private DirectoryInfo _folder;
         private FileInfo[] _files;
         private int _cpt = 0;
@@ -19,17 +19,21 @@ namespace ManhwaReader
         public FolderData()
         {
         }
-
-        public void Load(string filePath)
+        
+        public bool Load(string filePath)
         {
             var file = new FileInfo(filePath);
+            if (!VALID_EXTENSIONS.Contains(file.Extension))
+            {
+                return false;
+            }
             _folder = file.Directory;
 
             var fileList = new List<FileInfo>();
             var innerCpt = 0;
             _folder.GetFiles().CustomSort().ForEach(f =>
             {
-                if (_validExtensions.Contains(f.Extension))
+                if (VALID_EXTENSIONS.Contains(f.Extension))
                 {
                     if (f.FullName == filePath)
                         _cpt = innerCpt;
@@ -40,6 +44,7 @@ namespace ManhwaReader
             if (fileList.Count == 0)
                 throw new FolderEmptyException("The folder is empty (and if you coded that right you should not be there)");
             _files = fileList.ToArray();
+            return true;
         }
 
         public string GetNextFilePath()

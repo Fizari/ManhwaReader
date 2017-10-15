@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\BasicAlertBox.cs" />
     <Compile Include="Controls\CuteButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\IAlertBox.cs" />
     <Compile Include="Controls\ScrollablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -56,6 +58,9 @@
     <Compile Include="Model\IReaderState.cs" />
     <Compile Include="Presenters\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Views\AlertForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\CoverableForm.cs">
       <SubType>Form</SubType>
     </Compile>

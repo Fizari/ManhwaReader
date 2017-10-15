@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ManhwaReader.Views;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ManhwaReader
 {
-    public class CoverableForm : Form
+    public class CoverableForm : AlertForm
     {
         public CoverableForm () : base()
         {

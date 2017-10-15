@@ -10,7 +10,7 @@ namespace ManhwaReader.Model
     public interface IFolderData
     {
 
-        void Load(string filePath);
+        bool Load(string filePath);
         string GetNextFilePath();
         string GetPreviousFilePath();
         string GetNextOrPreviousFilePath(int i);

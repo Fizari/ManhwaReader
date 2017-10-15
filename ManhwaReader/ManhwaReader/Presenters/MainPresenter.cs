@@ -14,13 +14,21 @@ namespace ManhwaReader.Presenters
             _form = form;
             _folderData = new FolderData();
             _state = new ReaderState();
-        }
+        }  
 
         public void LoadChosenFile (string filePath)
         {
-            _folderData.Load(filePath);
-            _form.OnPictureLoaded(new EventArgs());
-            _form.LoadFile(filePath);
+            var isValid = _folderData.Load(filePath);
+            if (isValid)
+            {
+                _form.OnPictureLoaded(new EventArgs());
+                _form.LoadFile(filePath);
+            } 
+            else
+            {
+                _form.ShowOKErrorAlert("Incorrect file type","The file type is not valid. Please choose a picture.");
+                ShowFileChooser();
+            }
         }
 
         public void LoadNextPicture ()

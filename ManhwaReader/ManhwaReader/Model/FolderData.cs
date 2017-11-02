@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ManhwaReader.Exceptions;
 using ManhwaReader.Model;
+using ManhwaReader.Extensions;
 
 namespace ManhwaReader
 {

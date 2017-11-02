@@ -26,5 +26,7 @@ namespace ManhwaReader.Presenters
         void SwitchFullScreen();
 
         bool KeyPressed(ref Message msg, Keys keyData);
+
+        void SwitchModes();
     }
 }

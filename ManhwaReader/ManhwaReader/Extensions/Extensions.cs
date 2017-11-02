@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace ManhwaReader
+namespace ManhwaReader.Extensions
 {
-    public static class Extensions
+    public static class GeneralExtensions
     {
         public static void ForEach (this IEnumerable<FileInfo> list, Action <FileInfo> action)
         {

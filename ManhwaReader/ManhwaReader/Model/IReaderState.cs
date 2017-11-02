@@ -11,5 +11,7 @@ namespace ManhwaReader.Model
     {
         FileInfo File { get; set; }
         int VerticalScrollPosition { get; set; }
+        int LeftSplitterPosition { get; set; }
+        bool IsMainPanelOnly { get; set; }
     }
 }

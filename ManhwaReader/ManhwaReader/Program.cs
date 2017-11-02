@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManhwaReader.Views;
+using System;
 using System.Windows.Forms;
 
 namespace ManhwaReader
@@ -13,7 +14,7 @@ namespace ManhwaReader
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new NewForm());
         }
     }
 }

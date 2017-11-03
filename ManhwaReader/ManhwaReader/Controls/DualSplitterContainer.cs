@@ -237,6 +237,7 @@ namespace ManhwaReader.Controls
                 this._mainpanel.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right);
                 this._mainpanel.Location = Point.Empty;
                 this._mainpanel.Size = new Size(this.Width, this.Height);
+                DrawPanels();
             }
             else
             {
@@ -306,7 +307,10 @@ namespace ManhwaReader.Controls
         public void DrawPanels()
         {
             if (IsMainPanelOnly)
+            {
+                OnDrawingFinished();
                 return;
+            }
 
             _leftPanel.Width = _leftSplitter.Location.X;
 

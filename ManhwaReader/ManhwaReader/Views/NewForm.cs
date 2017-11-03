@@ -39,6 +39,7 @@ namespace ManhwaReader.Views
             _pContainer.Controls.Add(_pictureBox);
             _pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             _pictureBox.Location = Point.Empty;
+            _pictureBox.Anchor = (AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left);
             //right panel
             dualSplitterContainer.RightPanel.BackColor = _backgroundColor;
             //left panel
@@ -76,7 +77,7 @@ namespace ManhwaReader.Views
             var width = _pContainer.ClientSize.Width;
             var newHeight = Convert.ToInt32(width * ratio);
             var newSize = new Size(width, newHeight);
-            _pictureBox.Size = newSize;
+            _pictureBox.Height = newHeight;
 
             testLabel.Text = _pictureBox.Height+"";
         }
@@ -123,6 +124,7 @@ namespace ManhwaReader.Views
         public void EnableMainPanelOnlyMode()
         {
             dualSplitterContainer.IsMainPanelOnly = true;
+            
         }
 
         public void ScrollMainPanel(bool up)

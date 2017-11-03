@@ -25,6 +25,7 @@ namespace ManhwaReader.Controls
             set
             {
                 Location = new Point(value,Location.Y);
+                OnSplitValueChanged();
             }
         }
         private bool _locked = true;
@@ -119,6 +120,11 @@ namespace ManhwaReader.Controls
                 {
                     Location = l;
                     OnSplitValueChanged();
+                }
+                else
+                {
+                    if (DrawingPool != null)
+                        DrawingPool.ResumeAndDraw();
                 }
             }
         }

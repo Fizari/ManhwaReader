@@ -15,7 +15,7 @@ namespace ManhwaReader.Controls
         private TransparentPanel _rightPanel;
 
         public event EventHandler ValuesChanged;
-        public event EventHandler FinishedDrawing;//here
+        public event EventHandler FinishedDrawing;
 
         private double _ratioLS = 1.0;
         private double _ratioLimitL = 1.0;
@@ -119,7 +119,6 @@ namespace ManhwaReader.Controls
                 _drawingPool = value;
                 _leftSplitter.DrawingPool = _drawingPool;
                 _rightSplitter.DrawingPool = _drawingPool;
-                //_drawingPool.Register(this);
                 _drawingPool.Register(_leftPanel);
                 _drawingPool.Register(_leftSplitter);
                 _drawingPool.Register(_rightPanel);
@@ -190,9 +189,10 @@ namespace ManhwaReader.Controls
             _rightPanel.Anchor = (AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom);
             _mainpanel.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom);
 
-            _rightSplitter.LocationChanged += RSplitterlocationChanged;
-            _leftSplitter.LocationChanged += LSplitterlocationChanged;
-
+            //_rightSplitter.LocationChanged += RSplitterlocationChanged;
+            //_leftSplitter.LocationChanged += LSplitterlocationChanged;
+            _rightSplitter.SplitValueChanged += RSplitterlocationChanged;
+            _leftSplitter.SplitValueChanged += LSplitterlocationChanged;
 
             Locked = false;
         }
@@ -249,12 +249,11 @@ namespace ManhwaReader.Controls
         {
             if (DrawingPool != null)
                 DrawingPool.SuspendDrawing();
-
+            
             UpdateLimits();
 
             _leftSplitter.Position = Convert.ToInt32((_leftSplitter.MaximumPosition - _leftSplitter.MinimumPosition) * _ratioLS) +( _leftSplitter.MinimumPosition);
             syncSplitters(_leftSplitter, _rightSplitter);
-            
         }
 
         private void LSplitterlocationChanged(object sender, EventArgs e)
@@ -269,9 +268,9 @@ namespace ManhwaReader.Controls
 
         private void SplitterLocationChanged(VerticalSplitter movingSplitter, VerticalSplitter coupledSplitter,  EventHandler coupledSplitterHandler)
         {
-            coupledSplitter.LocationChanged -= coupledSplitterHandler;
+            coupledSplitter.SplitValueChanged -= coupledSplitterHandler;
             syncSplitters(movingSplitter, coupledSplitter);
-            coupledSplitter.LocationChanged += coupledSplitterHandler;
+            coupledSplitter.SplitValueChanged += coupledSplitterHandler;
             DrawPanels();
 
             _ratioLS = Convert.ToDouble(_leftSplitter.Position) / (_leftSplitter.MaximumPosition - _leftSplitter.MinimumPosition);
@@ -321,7 +320,7 @@ namespace ManhwaReader.Controls
             _rightSplitter.Height = Height;
 
             OnDrawingFinished();
-            
+
         }
     }
 }

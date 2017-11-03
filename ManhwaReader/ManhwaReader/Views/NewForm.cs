@@ -50,16 +50,15 @@ namespace ManhwaReader.Views
             _drawingPool = new DrawingPool();
             dualSplitterContainer.DrawingPool = _drawingPool;
 
-            dualSplitterContainer.Init();
             dualSplitterContainer.FinishedDrawing += OnDSCFinishedDrawing;
+            dualSplitterContainer.Init();
         }
 
         private void OnDSCFinishedDrawing(object sender, EventArgs e)
         {
             if (_pictureBox.Image != null)
                 ResizePicture();
-            _drawingPool.ResumeDrawing();
-            _drawingPool.Draw();
+            _drawingPool.ResumeAndDraw();
         }
 
         public void DisplayFile(string filePath)
@@ -72,7 +71,6 @@ namespace ManhwaReader.Views
         
         private void ResizePicture()
         {
-            Console.WriteLine("Form >> ResizePicture");
             var img = _pictureBox.Image;
             var ratio = Convert.ToDouble(img.Height) / img.Width;
             var width = _pContainer.ClientSize.Width;
@@ -167,8 +165,10 @@ namespace ManhwaReader.Views
             }
             base.WndProc(ref m);
         }
-        
+
         #endregion
+
+        #region controls binding
 
         private void openFileButton_Click(object sender, EventArgs e)
         {
@@ -184,6 +184,7 @@ namespace ManhwaReader.Views
         {
             _presenter.SwitchFullScreen();
         }
-        
+
+        #endregion
     }
 }

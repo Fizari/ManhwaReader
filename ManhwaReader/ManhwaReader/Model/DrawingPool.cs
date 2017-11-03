@@ -53,5 +53,11 @@ namespace ManhwaReader.Model
         {
             _pool.ForEach(c => c.Refresh());
         }
+
+        public void ResumeAndDraw()
+        {
+            ResumeDrawing();
+            Draw();
+        }
     }
 }

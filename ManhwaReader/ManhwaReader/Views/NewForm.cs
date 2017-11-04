@@ -93,27 +93,22 @@ namespace ManhwaReader.Views
         
         public void EnableFullScreen()
         {
-            /* TODO REWORK
             //this.TopMost = true;
             var formerSize = _pictureBox.Width;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
 
-            toolStrip.Visible = false;
-            mainContainer.Location = Point.Empty;
-            mainContainer.Height = this.Height;
-
-            mainContainer.BackColor = Color.Black;
-            this.pictureContainer.Anchor = (AnchorStyles.Top);
-            this.pictureContainer.Width = formerSize;
-            this.pictureContainer.Location = new Point((mainContainer.Width - _pictureBox.Width) / 2, 0);
-
-            ResizePicture();
-            */
+            dualSplitterContainer.Location = Point.Empty;
+            dualSplitterContainer.Height = this.Height;
         }
 
         public void DisableFullScreen()
         {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.WindowState = FormWindowState.Normal;
+
+            dualSplitterContainer.Location = new Point(0,toolStrip.Height);
+            dualSplitterContainer.Height = this.Height - toolStrip.Height;
         }
 
         public void EnableNormalMode()

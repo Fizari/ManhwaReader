@@ -1,6 +1,6 @@
 ﻿namespace ManhwaReader.Views
 {
-    partial class NewForm
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
             this.testButton = new System.Windows.Forms.ToolStripButton();
             this.fullScreenButton = new System.Windows.Forms.ToolStripButton();
             this.testLabel = new System.Windows.Forms.ToolStripLabel();
-            this.dualSplitterContainer = new ManhwaReader.Controls.DualSplitterContainer();
+            this.dualSplitterContainer = new ManhwaReader.Controls.DualSplitContainer();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -125,7 +125,7 @@
 
         #endregion
 
-        private Controls.DualSplitterContainer dualSplitterContainer;
+        private Controls.DualSplitContainer dualSplitterContainer;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripButton openFileButton;

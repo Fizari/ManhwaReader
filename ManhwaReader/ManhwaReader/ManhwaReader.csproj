@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\BasicAlertBox.cs" />
-    <Compile Include="Controls\DualSplitterContainer.cs">
+    <Compile Include="Controls\DualSplitContainer.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\IAlertBox.cs" />
@@ -69,11 +69,11 @@
     <Compile Include="Exceptions\FolderEmptyException.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Model\FolderData.cs" />
-    <Compile Include="Views\NewForm.cs">
+    <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\NewForm.Designer.cs">
-      <DependentUpon>NewForm.cs</DependentUpon>
+    <Compile Include="Views\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\ReaderState.cs" />
     <Compile Include="Program.cs" />
@@ -87,8 +87,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Views\NewForm.resx">
-      <DependentUpon>NewForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

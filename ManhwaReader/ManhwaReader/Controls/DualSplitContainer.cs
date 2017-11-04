@@ -6,7 +6,7 @@ using ManhwaReader.Model;
 
 namespace ManhwaReader.Controls
 {
-    public class DualSplitterContainer : Panel
+    public class DualSplitContainer : Panel
     {
         private VerticalSplitter _leftSplitter;
         private VerticalSplitter _rightSplitter;
@@ -162,7 +162,7 @@ namespace ManhwaReader.Controls
                 FinishedDrawing(this, new EventArgs());
         }
 
-        public DualSplitterContainer ()
+        public DualSplitContainer ()
         {
             _leftSplitter = new VerticalSplitter(0,this.Width/2);
             _rightSplitter = new VerticalSplitter(this.Width / 2, this.Width);

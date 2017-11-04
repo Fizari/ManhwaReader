@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace ManhwaReader.Views
 {
-    public partial class NewForm : AlertForm
+    public partial class MainForm : AlertForm
     {
         private static int _scrollStepValue = 120;//TODO user can change this value in 'options'
         private static Color _backgroundColor = Color.Black;//TODO user can change background color in 'options'
@@ -24,7 +24,7 @@ namespace ManhwaReader.Views
         private Panel _pContainer;//pictureBoxContainer
         private DrawingPool _drawingPool;
 
-        public NewForm()
+        public MainForm()
         {
             _presenter = new MainPresenter(this);
             this.KeyPreview = true;

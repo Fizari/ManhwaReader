@@ -7,7 +7,7 @@ namespace ManhwaReader.Presenters
 {
     public class MainPresenter : IMainPresenter
     {
-        protected NewForm _form;
+        protected MainForm _form;
         private IFolderData _folderData;
         private IReaderState _state;
         
@@ -16,7 +16,7 @@ namespace ManhwaReader.Presenters
 
         public event EventHandler PictureLoaded;
 
-        public MainPresenter (NewForm form)
+        public MainPresenter (MainForm form)
         {
             _form = form;
             _folderData = new FolderData();

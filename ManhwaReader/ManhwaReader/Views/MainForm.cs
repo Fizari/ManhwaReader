@@ -108,7 +108,7 @@ namespace ManhwaReader.Views
             this.WindowState = FormWindowState.Normal;
 
             dualSplitterContainer.Location = new Point(0,toolStrip.Height);
-            dualSplitterContainer.Height = this.Height - toolStrip.Height;
+            dualSplitterContainer.Height = this.ClientSize.Height - toolStrip.Height;
         }
 
         public void EnableNormalMode()

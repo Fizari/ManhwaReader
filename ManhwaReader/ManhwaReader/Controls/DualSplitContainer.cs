@@ -117,13 +117,16 @@ namespace ManhwaReader.Controls
             set
             {
                 _drawingPool = value;
-                _leftSplitter.DrawingPool = _drawingPool;
-                _rightSplitter.DrawingPool = _drawingPool;
-                _drawingPool.Register(_leftPanel);
-                _drawingPool.Register(_leftSplitter);
-                _drawingPool.Register(_rightPanel);
-                _drawingPool.Register(_rightSplitter);
-                _drawingPool.Register(_mainpanel);
+                if (_drawingPool != null)
+                {
+                    _leftSplitter.DrawingPool = _drawingPool;
+                    _rightSplitter.DrawingPool = _drawingPool;
+                    _drawingPool.Register(_leftPanel);
+                    _drawingPool.Register(_leftSplitter);
+                    _drawingPool.Register(_rightPanel);
+                    _drawingPool.Register(_rightSplitter);
+                    _drawingPool.Register(_mainpanel);
+                }
             }
         }
 

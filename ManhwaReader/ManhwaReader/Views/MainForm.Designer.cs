@@ -48,6 +48,7 @@
             this.testLabel});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
+            this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolStrip.Size = new System.Drawing.Size(847, 25);
             this.toolStrip.TabIndex = 2;
             this.toolStrip.Text = "toolStrip1";
@@ -94,6 +95,7 @@
             this.dualSplitterContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dualSplitterContainer.DrawingPool = null;
             this.dualSplitterContainer.IsMainPanelOnly = false;
             this.dualSplitterContainer.Location = new System.Drawing.Point(0, 28);
             this.dualSplitterContainer.Name = "dualSplitterContainer";
@@ -107,14 +109,14 @@
             // 
             this.openFileDialog.FileName = "openFileDialog1";
             // 
-            // NewForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(847, 473);
             this.Controls.Add(this.dualSplitterContainer);
             this.Controls.Add(this.toolStrip);
-            this.Name = "NewForm";
+            this.Name = "MainForm";
             this.Text = "NewForm";
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

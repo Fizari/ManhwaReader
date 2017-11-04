@@ -121,17 +121,14 @@ namespace ManhwaReader.Controls
                     Location = l;
                     OnSplitValueChanged();
                 }
-                else
-                {
-                    if (DrawingPool != null)
-                        DrawingPool.ResumeAndDraw();
-                }
             }
         }
 
         void OnMouseUp(object sender, MouseEventArgs e)
         {
             _isDragged = false;
+            if (DrawingPool != null)
+                DrawingPool.ResumeDrawing();
         }
 
     }

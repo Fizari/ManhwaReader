@@ -59,7 +59,7 @@ namespace ManhwaReader.Views
         {
             if (_pictureBox.Image != null)
                 ResizePicture();
-            _drawingPool.ResumeAndDraw();
+            _drawingPool.ResumeDrawing();
         }
 
         public void DisplayFile(string filePath)

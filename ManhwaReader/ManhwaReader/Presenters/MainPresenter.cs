@@ -1,4 +1,5 @@
-﻿using ManhwaReader.Model;
+﻿using ManhwaReader.Extensions;
+using ManhwaReader.Model;
 using ManhwaReader.Views;
 using System;
 using System.Windows.Forms;
@@ -13,52 +14,48 @@ namespace ManhwaReader.Presenters
         
         private bool _isFullScreen = false;
         private bool _areClicksEnabled = false;
-
-        public event EventHandler PictureLoaded;
-
+        
         public MainPresenter (MainForm form)
         {
             _form = form;
             _folderData = new FolderData();
+            _folderData.CurrentImageLoaded += OnCurrentImageJustLoaded;
             _state = new ReaderState();
-        }
-        
-        public void OnPictureLoaded ()
-        {
-            if (PictureLoaded != null)
-                PictureLoaded(this, new EventArgs());
         }
 
         public void LoadChosenFile (string filePath)
         {
+            _form.ShowLoadingUI();
             var isValid = _folderData.Load(filePath);
-            if (isValid)
-            {
-                OnPictureLoaded();
-                _form.DisplayFile(filePath);
-                EnableClicks(true);
-            } 
-            else
+            if (!isValid)
             {
                 _form.ShowOKErrorAlert("Incorrect file type","The file type is not valid. Please choose a picture.");
                 ShowFileChooser();
+                _form.HideLoadingUI();
             }
+        }
+
+        private void OnCurrentImageJustLoaded(object sender, EventArgs e)
+        {
+            
+            _form.DisplayFile(_folderData.CurrentFile);
+            this.PrintDebug(_folderData.CurrentFile.File.FullName);
         }
 
         public void LoadNextPicture ()
         {
-            if (_areClicksEnabled)
+            var nextFilePath = _folderData.GetNextFile();
+            if (nextFilePath.Image != null)
             {
-                var nextFilePath = _folderData.GetNextFilePath();
                 _form.DisplayFile(nextFilePath);
             }
         }
 
         public void LoadPreviousPicture()
         {
-            if (_areClicksEnabled)
+            var previousFilePath = _folderData.GetPreviousFile();
+            if (previousFilePath.Image != null)
             {
-                var previousFilePath = _folderData.GetPreviousFilePath();
                 _form.DisplayFile(previousFilePath);
             }
         }
@@ -81,7 +78,7 @@ namespace ManhwaReader.Presenters
         public void RegisterState (int scrollPosition)
         {
             _state.VerticalScrollPosition = scrollPosition;
-            _state.File = _folderData.GetCurrentFile();
+            _state.File = _folderData.CurrentFile;
         }
 
         public void SwitchFullScreen ()

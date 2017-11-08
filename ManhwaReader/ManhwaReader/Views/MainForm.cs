@@ -62,12 +62,18 @@ namespace ManhwaReader.Views
             _drawingPool.ResumeDrawing();
         }
 
-        public void DisplayFile(string filePath)
+        public void DisplayFile(ImageData imgData)
         {
-            Text = filePath;
-            _pictureBox.Image = Image.FromFile(filePath);
+            if (this.InvokeRequired) // thread safe
+            {
+                this.BeginInvoke(new Action(() => DisplayFile(imgData)));
+                return;
+            }
+            Text = imgData.File.FullName;
+            _pictureBox.Image = imgData.Image;
             _pContainer.AutoScrollPosition = new Point(0, 0);
             ResizePicture();
+            HideLoadingUI();
         }
         
         private void ResizePicture()
@@ -78,8 +84,6 @@ namespace ManhwaReader.Views
             var newHeight = Convert.ToInt32(width * ratio);
             var newSize = new Size(width, newHeight);
             _pictureBox.Height = newHeight;
-
-            testLabel.Text = _pictureBox.Height+"";
         }
 
         public void ShowOpenFileDialog()
@@ -93,7 +97,6 @@ namespace ManhwaReader.Views
         
         public void EnableFullScreen()
         {
-            //this.TopMost = true;
             var formerSize = _pictureBox.Width;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
@@ -135,6 +138,16 @@ namespace ManhwaReader.Views
             else
                 newValue = scrollValue + step;
             _pContainer.AutoScrollPosition = new Point(0, newValue);
+        }
+
+        public void ShowLoadingUI()
+        {
+            testLabel.Text = "Loading ...";
+        }
+
+        public void HideLoadingUI()
+        {
+            testLabel.Text = "Loaded !";
         }
 
         #region windows behavior biding

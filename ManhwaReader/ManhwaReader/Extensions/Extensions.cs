@@ -29,17 +29,13 @@ namespace ManhwaReader.Extensions
             .OrderBy(x => x.SortStr)
             .Select(x => x.OrgStr);
         }
-
-        public static void PrintDebug (this object o, string s)
-        {
-            Console.WriteLine(o.GetType().Name+">> "+s);
-        }
-
-        public static void PrintDebug (this object o)
+        
+        public static void PrintDebug (this object o, string msg = "")
         {
             StackTrace stackTrace = new StackTrace();
             var methodName = stackTrace.GetFrame(1).GetMethod().Name;
-            Console.WriteLine(o.GetType().Name + ">> " + methodName);
+            var s = msg == "" ? "" : " | " + msg;
+            Console.WriteLine(o.GetType().Name + ">> " + methodName + s);
         }
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Model\DrawingPool.cs" />
     <Compile Include="Model\IFolderData.cs" />
+    <Compile Include="Model\ImageData.cs" />
     <Compile Include="Model\IReaderState.cs" />
     <Compile Include="Presenters\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />

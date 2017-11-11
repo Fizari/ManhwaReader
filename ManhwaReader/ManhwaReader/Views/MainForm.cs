@@ -1,9 +1,11 @@
-﻿using ManhwaReader.Model;
+﻿using ManhwaReader.Extensions;
+using ManhwaReader.Model;
 using ManhwaReader.Presenters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Security.Permissions;
@@ -23,6 +25,8 @@ namespace ManhwaReader.Views
         private PictureBox _pictureBox;
         private Panel _pContainer;//pictureBoxContainer
         private DrawingPool _drawingPool;
+
+        private Stopwatch _stopWatch;
 
         public MainForm()
         {
@@ -53,8 +57,25 @@ namespace ManhwaReader.Views
 
             dualSplitterContainer.FinishedDrawing += OnDSCFinishedDrawing;
             dualSplitterContainer.Init();
+
+            _pictureBox.Paint += (object sender, PaintEventArgs e) => 
+            {
+                if (_stopWatch != null && _stopWatch.IsRunning)
+                {
+                    _stopWatch.Stop();
+                    this.PrintDebug("DRAWING TIME : " + _stopWatch.ElapsedMilliseconds);
+                }
+            };
+
+            //_pictureBox.Paint += fauifaefa;
         }
 
+        /*
+        private void fauifaefa(object sender, PaintEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        */
         private void OnDSCFinishedDrawing(object sender, EventArgs e)
         {
             if (_pictureBox.Image != null)
@@ -70,12 +91,13 @@ namespace ManhwaReader.Views
                 return;
             }
             Text = imgData.File.FullName;
+            _stopWatch = Stopwatch.StartNew();
             _pictureBox.Image = imgData.Image;
             _pContainer.AutoScrollPosition = new Point(0, 0);
             ResizePicture();
             HideLoadingUI();
         }
-        
+                
         private void ResizePicture()
         {
             var img = _pictureBox.Image;

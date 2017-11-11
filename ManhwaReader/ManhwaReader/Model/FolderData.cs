@@ -170,6 +170,8 @@ namespace ManhwaReader
         //range of the previous load), finish the loading of the range
         public void CompleteLoadedFiles(int newCpt, int oldCpt)
         {
+            if (_files.Count <= _minListSizeForPreLoading)
+                return;
             var offset = newCpt - oldCpt;
             var factor = Math.Sign(offset);
             for (int i = 1; i <= Math.Abs(offset); i++)

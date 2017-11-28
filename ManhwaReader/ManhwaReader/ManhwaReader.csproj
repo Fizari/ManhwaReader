@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ManhwaReader</RootNamespace>
     <AssemblyName>ManhwaReader</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,9 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\BasicAlertBox.cs" />
-    <Compile Include="Controls\CuteButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Controls\CuteButton.cs" />
     <Compile Include="Controls\IAlertBox.cs" />
     <Compile Include="Controls\ScrollablePanel.cs">
       <SubType>Component</SubType>
@@ -99,6 +98,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

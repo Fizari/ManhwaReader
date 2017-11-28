@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManhwaReader.Views;
+using System;
 using System.Windows.Forms;
 
 namespace ManhwaReader

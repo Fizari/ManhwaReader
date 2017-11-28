@@ -48,33 +48,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\BasicAlertBox.cs" />
-    <Compile Include="Controls\CuteButton.cs" />
-    <Compile Include="Controls\IAlertBox.cs" />
-    <Compile Include="Controls\ScrollablePanel.cs">
+    <Compile Include="Controls\DualSplitContainer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\IAlertBox.cs" />
+    <Compile Include="Controls\TransparentPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\VerticalSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extensions\ControlExtensions.cs" />
+    <Compile Include="Model\DrawingPool.cs" />
     <Compile Include="Model\IFolderData.cs" />
+    <Compile Include="Model\ImageData.cs" />
     <Compile Include="Model\IReaderState.cs" />
     <Compile Include="Presenters\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Views\AlertForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\CoverableForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Exceptions\FolderEmptyException.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Model\FolderData.cs" />
-    <Compile Include="Views\ClickOverlayForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\ClickOverlayForm.Designer.cs">
-      <DependentUpon>ClickOverlayForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TransparentOverlayForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,12 +80,6 @@
     <Compile Include="Model\ReaderState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Views\ClickOverlayForm.resx">
-      <DependentUpon>ClickOverlayForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -100,6 +90,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

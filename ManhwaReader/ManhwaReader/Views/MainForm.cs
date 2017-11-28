@@ -1,60 +1,94 @@
-﻿using ManhwaReader.Forms;
+﻿using ManhwaReader.Extensions;
 using ManhwaReader.Model;
 using ManhwaReader.Presenters;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Security.Permissions;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ManhwaReader
+namespace ManhwaReader.Views
 {
-    public partial class MainForm : CoverableForm
+    public partial class MainForm : AlertForm
     {
-        private ClickOverlayForm _clickOverlayForm;
-
-        private static int _scrollStepValue = 120;//TODO user can change this value within options
+        private static int _scrollStepValue = 120;//TODO user can change this value in 'options'
+        private static Color _backgroundColor = Color.Black;//TODO user can change background color in 'options'
+        private static Color _splitterColor = Color.Blue;//TODO what can we do with that ?
 
         private IMainPresenter _presenter;
-
-        public event EventHandler PictureLoaded;
+        private PictureBox _pictureBox;
+        private Panel _pContainer;//pictureBoxContainer
+        private DrawingPool _drawingPool;
         
         public MainForm()
         {
             _presenter = new MainPresenter(this);
             this.KeyPreview = true;
             InitializeComponent();
-            _clickOverlayForm = new ClickOverlayForm(this,_presenter);
-            _clickOverlayForm.Show();
-        }
+            //pictureBoxContainer
+            _pContainer = new Panel();
+            _pContainer.AutoScroll = true;
+            _pContainer.Dock = DockStyle.Fill;
+            dualSplitterContainer.MainPanel.Controls.Add(_pContainer);
+            //pictureBox
+            _pictureBox = new PictureBox();
+            _pContainer.Controls.Add(_pictureBox);
+            _pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            _pictureBox.Location = Point.Empty;
+            _pictureBox.Anchor = (AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left);
+            //right panel
+            dualSplitterContainer.RightPanel.BackColor = _backgroundColor;
+            //left panel
+            dualSplitterContainer.LeftPanel.BackColor = _backgroundColor;
+            //splitters
+            dualSplitterContainer.SplitterColor = _splitterColor;
+            dualSplitterContainer.SplitterWidth = 10;
+            //drawingPool
+            _drawingPool = new DrawingPool();
+            dualSplitterContainer.DrawingPool = _drawingPool;
 
-        public override Size CoverableArea()
-        {
-            return this.mainContainerPanel.ClientSize;
-        }
-        public override Point CoverableLocation()
-        {
-            return this.mainContainerPanel.Bounds.Location;
-        }
-
-        public override void MouseWheeled(object sender, MouseEventArgs me)
-        {
-            mainContainerPanel.MouseWheeled(me);
-        }
-
-        public virtual void OnPictureLoaded (EventArgs e)
-        {
-            if (PictureLoaded != null)
-                PictureLoaded(this, e);
-        }
-
-        public void LoadFile (string filePath)
-        {
-            this.toolStripLabel1.Text = filePath;
-            this.mainPictureBox.Image = Image.FromFile(filePath);
-            this.mainContainerPanel.AutoScrollPosition = new Point(0, 0);
-            ResizePicture();
+            dualSplitterContainer.FinishedDrawing += OnDSCFinishedDrawing;
+            dualSplitterContainer.Init();
+            
         }
         
+        private void OnDSCFinishedDrawing(object sender, EventArgs e)
+        {
+            if (_pictureBox.Image != null)
+                ResizePicture();
+            _drawingPool.ResumeDrawing();
+        }
+
+        public void DisplayFile(ImageData imgData)
+        {
+            if (this.InvokeRequired) // thread safe
+            {
+                this.BeginInvoke(new Action(() => DisplayFile(imgData)));
+                return;
+            }
+            Text = imgData.File.FullName;
+            _pictureBox.Image = imgData.Image;
+            _pContainer.AutoScrollPosition = new Point(0, 0);
+            ResizePicture();
+            HideLoadingUI();
+        }
+                
+        private void ResizePicture()
+        {
+            var img = _pictureBox.Image;
+            var ratio = Convert.ToDouble(img.Height) / img.Width;
+            var width = _pContainer.ClientSize.Width;
+            var newHeight = Convert.ToInt32(width * ratio);
+            var newSize = new Size(width, newHeight);
+            _pictureBox.Height = newHeight;
+        }
+
         public void ShowOpenFileDialog()
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -63,81 +97,61 @@ namespace ManhwaReader
                 _presenter.OpenChosenFile(filePath);
             }
         }
-
-        private void ResizePicture()
-        {
-            var bla = this.mainContainerPanel;
-            var img = mainPictureBox.Image;
-            var ratio = Convert.ToDouble(img.Height) / img.Width;
-            this.mainPictureBox.Height = Convert.ToInt32((this.mainPictureBox.Width * ratio));
-        }
-
+        
         public void EnableFullScreen()
         {
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            var formerSize = _pictureBox.Width;
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+
+            dualSplitterContainer.Location = Point.Empty;
+            dualSplitterContainer.Height = this.Height;
         }
 
-        public void DisableFullScreen ()
+        public void DisableFullScreen()
         {
-            this.TopMost = false;
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Normal;
+
+            dualSplitterContainer.Location = new Point(0,toolStrip.Height);
+            dualSplitterContainer.Height = this.ClientSize.Height - toolStrip.Height;
         }
-        
+
+        public void EnableNormalMode()
+        {
+            dualSplitterContainer.IsMainPanelOnly = false;
+        }
+
+        public void EnableMainPanelOnlyMode()
+        {
+            dualSplitterContainer.IsMainPanelOnly = true;
+            
+        }
+
         public void ScrollMainPanel(bool up)
         {
             var step = _scrollStepValue;
             step = up ? step * -1 : step;
-            var scrollValue = mainContainerPanel.VerticalScroll.Value;
+            var scrollValue = _pContainer.VerticalScroll.Value;
             var newValue = 0;
             if (scrollValue + step < 0)
                 newValue = 0;
-            else if (scrollValue + step > mainContainerPanel.VerticalScroll.Maximum)
-                newValue = mainContainerPanel.VerticalScroll.Maximum;
+            else if (scrollValue + step > _pContainer.VerticalScroll.Maximum)
+                newValue = _pContainer.VerticalScroll.Maximum;
             else
                 newValue = scrollValue + step;
-            mainContainerPanel.AutoScrollPosition =
-            new Point(0, newValue);
+            _pContainer.AutoScrollPosition = new Point(0, newValue);
         }
 
-
-        #region Events Handlers
-
-        private void OnMainPictureBoxResize(object sender, EventArgs e)
+        public void ShowLoadingUI()
         {
-            if (mainPictureBox.Image != null)
-            {
-                ResizePicture();
-            }
-        }
-        
-        private void OnOpenFileButtonClick(object sender, EventArgs e)
-        {
-            _presenter.ShowFileChooser();
+            testLabel.Text = "Loading ...";
         }
 
-        private void OnFullScreenBtnClick(object sender, EventArgs e)
+        public void HideLoadingUI()
         {
-            _presenter.SwitchFullScreen();
+            testLabel.Text = "Loaded !";
         }
-        private void OnFrameSizeChanged(object sender, EventArgs e)
-        {
-            if (WindowState == FormWindowState.Minimized)
-            {
-                //AFTER minimized...
-            }
-            if (WindowState == FormWindowState.Normal || WindowState == FormWindowState.Maximized)
-            {
-                
-                mainContainerPanel.VerticalScroll.Value = _presenter.GetVerticalScrollPosition();
-                mainContainerPanel.PerformLayout();
-                
-            }
-        }
-
-        #endregion
 
         #region windows behavior biding
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -158,11 +172,30 @@ namespace ManhwaReader
                     int command = m.WParam.ToInt32() & 0xfff0;
                     if (command == SC_MINIMIZE) //Window BEFORE minimized...
                     {
-                        _presenter.RegisterState(mainContainerPanel.VerticalScroll.Value);
+                        _presenter.RegisterState(_pContainer.VerticalScroll.Value);
                     }
                     break;
             }
             base.WndProc(ref m);
+        }
+
+        #endregion
+
+        #region controls binding
+
+        private void openFileButton_Click(object sender, EventArgs e)
+        {
+            _presenter.ShowFileChooser();
+        }
+
+        private void testButton_Click(object sender, EventArgs e)
+        {
+            _presenter.SwitchModes();
+        }
+
+        private void fullScreenButton_Click(object sender, EventArgs e)
+        {
+            _presenter.SwitchFullScreen();
         }
 
         #endregion

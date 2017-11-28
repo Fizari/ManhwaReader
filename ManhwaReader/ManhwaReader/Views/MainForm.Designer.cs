@@ -1,18 +1,16 @@
-﻿using ManhwaReader.Controls;
-
-namespace ManhwaReader
+﻿namespace ManhwaReader.Views
 {
-    partial class MainForm : CoverableForm
+    partial class MainForm
     {
         /// <summary>
-        /// Variable nécessaire au concepteur.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Nettoyage des ressources utilisées.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true si les ressources managées doivent être supprimées ; sinon, false.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,37 +20,37 @@ namespace ManhwaReader
             base.Dispose(disposing);
         }
 
-        #region Code généré par le Concepteur Windows Form
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Méthode requise pour la prise en charge du concepteur - ne modifiez pas
-        /// le contenu de cette méthode avec l'éditeur de code.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripFullScreenBtn = new System.Windows.Forms.ToolStripButton();
+            this.testButton = new System.Windows.Forms.ToolStripButton();
+            this.fullScreenButton = new System.Windows.Forms.ToolStripButton();
+            this.testLabel = new System.Windows.Forms.ToolStripLabel();
+            this.dualSplitterContainer = new ManhwaReader.Controls.DualSplitContainer();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.mainPictureBox = new System.Windows.Forms.PictureBox();
-            this.mainContainerPanel = new ManhwaReader.Controls.ScrollablePanel();
             this.toolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
-            this.mainContainerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openFileButton,
-            this.toolStripLabel1,
-            this.toolStripFullScreenBtn});
+            this.testButton,
+            this.fullScreenButton,
+            this.testLabel});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(982, 25);
-            this.toolStrip.TabIndex = 1;
+            this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip.Size = new System.Drawing.Size(847, 25);
+            this.toolStrip.TabIndex = 2;
             this.toolStrip.Text = "toolStrip1";
             // 
             // openFileButton
@@ -63,87 +61,78 @@ namespace ManhwaReader
             this.openFileButton.Name = "openFileButton";
             this.openFileButton.Size = new System.Drawing.Size(23, 22);
             this.openFileButton.Text = "toolStripButton1";
-            this.openFileButton.Click += new System.EventHandler(this.OnOpenFileButtonClick);
+            this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
             // 
-            // toolStripLabel1
+            // testButton
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(86, 22);
-            this.toolStripLabel1.Text = "toolStripLabel1";
+            this.testButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.testButton.Image = ((System.Drawing.Image)(resources.GetObject("testButton.Image")));
+            this.testButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.testButton.Name = "testButton";
+            this.testButton.Size = new System.Drawing.Size(23, 22);
+            this.testButton.Text = "testButton";
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
-            // toolStripFullScreenBtn
+            // fullScreenButton
             // 
-            this.toolStripFullScreenBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripFullScreenBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripFullScreenBtn.Image = ((System.Drawing.Image)(resources.GetObject("toolStripFullScreenBtn.Image")));
-            this.toolStripFullScreenBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripFullScreenBtn.Name = "toolStripFullScreenBtn";
-            this.toolStripFullScreenBtn.Size = new System.Drawing.Size(23, 22);
-            this.toolStripFullScreenBtn.Text = "toolStripButton1";
-            this.toolStripFullScreenBtn.Click += new System.EventHandler(this.OnFullScreenBtnClick);
+            this.fullScreenButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.fullScreenButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fullScreenButton.Image = ((System.Drawing.Image)(resources.GetObject("fullScreenButton.Image")));
+            this.fullScreenButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fullScreenButton.Name = "fullScreenButton";
+            this.fullScreenButton.Size = new System.Drawing.Size(23, 22);
+            this.fullScreenButton.Text = "toolStripButton3";
+            this.fullScreenButton.Click += new System.EventHandler(this.fullScreenButton_Click);
+            // 
+            // testLabel
+            // 
+            this.testLabel.Name = "testLabel";
+            this.testLabel.Size = new System.Drawing.Size(86, 22);
+            this.testLabel.Text = "toolStripLabel1";
+            // 
+            // dualSplitterContainer
+            // 
+            this.dualSplitterContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dualSplitterContainer.DrawingPool = null;
+            this.dualSplitterContainer.IsMainPanelOnly = false;
+            this.dualSplitterContainer.Location = new System.Drawing.Point(0, 28);
+            this.dualSplitterContainer.Name = "dualSplitterContainer";
+            this.dualSplitterContainer.Size = new System.Drawing.Size(847, 445);
+            this.dualSplitterContainer.SplitterColor = System.Drawing.Color.Pink;
+            this.dualSplitterContainer.SplittersHidden = false;
+            this.dualSplitterContainer.SplitterWidth = 0;
+            this.dualSplitterContainer.TabIndex = 0;
             // 
             // openFileDialog
             // 
-            this.openFileDialog.FileName = "openImageFileDialog";
-            this.openFileDialog.Filter = "prouti files (*.prouti)|*.prouti|Pictures (*.jpg;*.png;*.bmp)|*.jpg;*.png;*.bmp|A" +
-    "ll files (*.*)|*.*";
-            this.openFileDialog.FilterIndex = 2;
-            this.openFileDialog.InitialDirectory = "D:\\Manhwa\\Tamen De Machin\\";
-            this.openFileDialog.RestoreDirectory = true;
-            // 
-            // mainPictureBox
-            // 
-            this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mainPictureBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.mainPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(982, 446);
-            this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.mainPictureBox.TabIndex = 0;
-            this.mainPictureBox.TabStop = false;
-            this.mainPictureBox.Resize += new System.EventHandler(this.OnMainPictureBoxResize);
-            // 
-            // mainContainerPanel
-            // 
-            this.mainContainerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mainContainerPanel.AutoScroll = true;
-            this.mainContainerPanel.Controls.Add(this.mainPictureBox);
-            this.mainContainerPanel.Location = new System.Drawing.Point(0, 28);
-            this.mainContainerPanel.Name = "mainContainerPanel";
-            this.mainContainerPanel.Size = new System.Drawing.Size(982, 446);
-            this.mainContainerPanel.TabIndex = 3;
+            this.openFileDialog.FileName = "openFileDialog1";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(982, 471);
-            this.Controls.Add(this.mainContainerPanel);
+            this.ClientSize = new System.Drawing.Size(847, 473);
+            this.Controls.Add(this.dualSplitterContainer);
             this.Controls.Add(this.toolStrip);
-            this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "MainForm";
-            this.Text = "ManhwaReader";
-            this.SizeChanged += new System.EventHandler(this.OnFrameSizeChanged);
+            this.Text = "NewForm";
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
-            this.mainContainerPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
+
+        private Controls.DualSplitContainer dualSplitterContainer;
         private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripButton openFileButton;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.ToolStripButton toolStripFullScreenBtn;
-        private System.Windows.Forms.PictureBox mainPictureBox;
-        private ScrollablePanel mainContainerPanel;
+        private System.Windows.Forms.ToolStripButton openFileButton;
+        private System.Windows.Forms.ToolStripButton testButton;
+        private System.Windows.Forms.ToolStripButton fullScreenButton;
+        private System.Windows.Forms.ToolStripLabel testLabel;
     }
 }
-

@@ -9,11 +9,10 @@ namespace ManhwaReader.Model
 {
     public interface IFolderData
     {
-
+        event EventHandler CurrentImageLoaded;
+        ImageData CurrentFile { get; }
         bool Load(string filePath);
-        string GetNextFilePath();
-        string GetPreviousFilePath();
-        string GetNextOrPreviousFilePath(int i);
-        FileInfo GetCurrentFile();
+        ImageData GetNextFile();
+        ImageData GetPreviousFile();
     }
 }

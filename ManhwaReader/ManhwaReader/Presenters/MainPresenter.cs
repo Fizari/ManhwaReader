@@ -1,4 +1,6 @@
-﻿using ManhwaReader.Model;
+﻿using ManhwaReader.Extensions;
+using ManhwaReader.Model;
+using ManhwaReader.Views;
 using System;
 using System.Windows.Forms;
 
@@ -11,39 +13,51 @@ namespace ManhwaReader.Presenters
         private IReaderState _state;
         
         private bool _isFullScreen = false;
-
+        private bool _areClicksEnabled = false;
+        
         public MainPresenter (MainForm form)
         {
             _form = form;
             _folderData = new FolderData();
+            _folderData.CurrentImageLoaded += OnCurrentImageJustLoaded;
             _state = new ReaderState();
-        }  
+        }
 
         public void LoadChosenFile (string filePath)
         {
+            _form.ShowLoadingUI();
             var isValid = _folderData.Load(filePath);
-            if (isValid)
-            {
-                _form.OnPictureLoaded(new EventArgs());
-                _form.LoadFile(filePath);
-            } 
-            else
+            if (!isValid)
             {
                 _form.ShowOKErrorAlert("Incorrect file type","The file type is not valid. Please choose a picture.");
                 ShowFileChooser();
+                _form.HideLoadingUI();
             }
+        }
+
+        private void OnCurrentImageJustLoaded(object sender, EventArgs e)
+        {
+            
+            _form.DisplayFile(_folderData.CurrentFile);
+            this.PrintDebug(_folderData.CurrentFile.File.FullName);
         }
 
         public void LoadNextPicture ()
         {
-            var nextFilePath = _folderData.GetNextFilePath();
-            _form.LoadFile(nextFilePath);
+            var nextFilePath = _folderData.GetNextFile();
+            if (nextFilePath.Image != null)
+            {
+                _form.DisplayFile(nextFilePath);
+            }
         }
 
         public void LoadPreviousPicture()
         {
-            var previousFilePath = _folderData.GetPreviousFilePath();
-            _form.LoadFile(previousFilePath);
+            var previousFilePath = _folderData.GetPreviousFile();
+            if (previousFilePath.Image != null)
+            {
+                _form.DisplayFile(previousFilePath);
+            }
         }
 
         public void ShowFileChooser ()
@@ -64,7 +78,7 @@ namespace ManhwaReader.Presenters
         public void RegisterState (int scrollPosition)
         {
             _state.VerticalScrollPosition = scrollPosition;
-            _state.File = _folderData.GetCurrentFile();
+            _state.File = _folderData.CurrentFile;
         }
 
         public void SwitchFullScreen ()
@@ -79,6 +93,22 @@ namespace ManhwaReader.Presenters
             }
             _isFullScreen = !_isFullScreen;
         }
+
+        public void EnableClicks(bool enabled)
+        {
+            _areClicksEnabled = enabled;
+        }
+
+        public void SwitchModes()
+        {
+            if (_state.IsMainPanelOnly)
+                _form.EnableNormalMode();
+            else
+                _form.EnableMainPanelOnlyMode();
+            _state.IsMainPanelOnly = !_state.IsMainPanelOnly;
+        }
+
+        #region key binding
 
         public bool KeyPressed (ref Message msg, Keys keyData)
         {
@@ -119,5 +149,6 @@ namespace ManhwaReader.Presenters
             }
             return false;
         }
+        #endregion
     }
 }

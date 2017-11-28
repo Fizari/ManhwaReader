@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace ManhwaReader
+namespace ManhwaReader.Extensions
 {
-    public static class Extensions
+    public static class GeneralExtensions
     {
         public static void ForEach (this IEnumerable<FileInfo> list, Action <FileInfo> action)
         {
@@ -27,6 +28,14 @@ namespace ManhwaReader
             })
             .OrderBy(x => x.SortStr)
             .Select(x => x.OrgStr);
+        }
+        
+        public static void PrintDebug (this object o, string msg = "")
+        {
+            StackTrace stackTrace = new StackTrace();
+            var methodName = stackTrace.GetFrame(1).GetMethod().Name;
+            var s = msg == "" ? "" : " | " + msg;
+            Console.WriteLine(o.GetType().Name + ">> " + methodName + s);
         }
     }
 }
